@@ -23,4 +23,3 @@
 
 
 # Use case диаграмма
-![i](blop:https://app.diagrams.net/2089b8a9-c2de-4561-b908-904630191d73)
