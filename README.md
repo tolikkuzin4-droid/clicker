@@ -22,5 +22,8 @@
 ![i](https://github.com/user-attachments/assets/76037b64-14f4-4c5e-a838-92a1c4153ad6)
 
 
+# Блок-схема
+![i](https://github.com/tolikkuzin4-droid/clicker/blob/main/Блок%20схема%20игры.png?raw=true)
+
 # Use case диаграмма
-file:///C:/Users/Admin/Downloads/Блок%20схема%20игры%20(2).png
+![i](https://github.com/tolikkuzin4-droid/clicker/blob/main/Диаграмма%20use%20case.png?raw=true)
