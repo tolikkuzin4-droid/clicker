@@ -23,7 +23,7 @@
 
 
 # Блок-схема
-![i](https://github.com/tolikkuzin4-droid/clicker/blob/main/Блок%20схема%20игры.png?raw=true)
+![i](https://github.com/tolikkuzin4-droid/clicker/blob/main/Блок%20схема%20игры%20(1).png?raw=true)
 
 # Use case диаграмма
 ![i](https://github.com/tolikkuzin4-droid/clicker/blob/main/Use%20case%20%D0%B4%D0%B8%D0%B0%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0.png?raw=true)
