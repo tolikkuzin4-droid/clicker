@@ -21,6 +21,7 @@ mixer.music.play(-1)
 width = 500
 height = 500
 screen = pygame.display.set_mode((width, height))
+settings = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Игра про кликер')
 
 score = 0
@@ -30,6 +31,19 @@ def score_click():
     global score
     score += 1
     print(score)
+
+button2 = Button(
+    settings,
+    10, 10, 120, 40,
+    text='Настройки',
+    fontSize=25,
+    margin=20,
+    inactiveColour=(115, 115, 115),
+    hoverColour=(66, 66, 66),
+    pressedColour=(255, 15, 31),
+    radius=5,
+    onClick=lambda:print("Настройки открыты")
+)
 
 button = Button(
     screen,
