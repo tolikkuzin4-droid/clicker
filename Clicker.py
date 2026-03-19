@@ -22,6 +22,8 @@ width = 500
 height = 500
 screen = pygame.display.set_mode((width, height))
 settings = pygame.display.set_mode((width, height))
+achievements = pygame.display.set_mode((width, height))
+shop = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Игра про кликер')
 
 score = 0
@@ -43,6 +45,32 @@ button2 = Button(
     pressedColour=(255, 15, 31),
     radius=5,
     onClick=lambda:print("Настройки открыты")
+)
+
+button3 = Button(
+    achievements,
+    10, 60, 120, 40,
+    text='Достижения',
+    fontSize=22,
+    margin=20,
+    inactiveColour=(115, 115, 115),
+    hoverColour=(66, 66, 66),
+    pressedColour=(255, 15, 31),
+    radius=5,
+    onClick=lambda:print("Достижения открыты")
+)
+
+button4 = Button(
+    shop,
+    10, 110, 120, 40,
+    text='Магазин',
+    fontSize=25,
+    margin=20,
+    inactiveColour=(115, 115, 115),
+    hoverColour=(66, 66, 66),
+    pressedColour=(255, 15, 31),
+    radius=5,
+    onClick=lambda:print("Магазин открыт")
 )
 
 button = Button(
