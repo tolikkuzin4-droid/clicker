@@ -20,6 +20,7 @@ mixer.music.play(-1)
 
 width = 500
 height = 500
+
 screen = pygame.display.set_mode((width, height))
 settings = pygame.display.set_mode((width, height))
 achievements = pygame.display.set_mode((width, height))
@@ -29,6 +30,25 @@ pygame.display.set_caption('Игра про кликер')
 score = 0
 font = pygame.font.Font(None, 42)
 
+settings_open = False
+achievements_open = False
+shop_open = False
+
+def opensett():
+    global settings_open
+    settings_open = True
+    print("Настройки открыты")
+
+def openachiev():
+    global achievements_open
+    achievements_open = True
+    print("Достижения открыты")
+
+def openshop():
+    global shop_open
+    shop_open = True
+    print("Магазин открыт")
+    
 def score_click():
     global score
     score += 1
@@ -44,7 +64,7 @@ button2 = Button(
     hoverColour=(66, 66, 66),
     pressedColour=(255, 15, 31),
     radius=5,
-    onClick=lambda:print("Настройки открыты")
+    onClick=opensett
 )
 
 button3 = Button(
@@ -57,7 +77,7 @@ button3 = Button(
     hoverColour=(66, 66, 66),
     pressedColour=(255, 15, 31),
     radius=5,
-    onClick=lambda:print("Достижения открыты")
+    onClick=openachiev
 )
 
 button4 = Button(
@@ -70,7 +90,7 @@ button4 = Button(
     hoverColour=(66, 66, 66),
     pressedColour=(255, 15, 31),
     radius=5,
-    onClick=lambda:print("Магазин открыт")
+    onClick=openshop
 )
 
 button = Button(
@@ -91,11 +111,37 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+
+        pygame_widgets.update(event)
+    
     screen.fill((255, 255, 255))
 
-    pygame_widgets.update(event)
+    button.draw()
+    button2.draw()
+    button3.draw()
+    button4.draw()
+    
     textsurface = font.render(f'Счет: {score}', True, (0, 0, 0))
     screen.blit(textsurface, (200, 125))
+    
+    if settings_open:
+        pygame.draw.rect(settings, (255, 255, 255), (100, 100, 300, 300))
+        pygame.draw.rect(settings, (0, 0, 0), (100, 100, 300, 300), 3)
+        set_text = font.render('Настройки', True, (0, 0, 0))
+        settings.blit(set_text, (200, 220))
+    
+    if achievements_open:
+        pygame.draw.rect(achievements, (255, 255, 255), (100, 100, 300, 300))
+        pygame.draw.rect(achievements, (0, 0, 0), (100, 100, 300, 300), 3)
+        ach_text = font.render('Достижения', True, (0, 0, 0))
+        achievements.blit(ach_text, (180, 220))
+    
+    if shop_open:
+        pygame.draw.rect(shop, (255, 255, 255), (100, 100, 300, 300))
+        pygame.draw.rect(shop, (0, 0, 0), (100, 100, 300, 300), 3)
+        shop_text = font.render('Магазин', True, (0, 0, 0))
+        shop.blit(shop_text, (200, 220))
+    
     pygame.display.flip()
 
 pygame.quit()
