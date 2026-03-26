@@ -1,4 +1,5 @@
 import pygame
+import tkinter as tk
 import pygame_widgets
 from pygame_widgets.button import Button
 from pygame import mixer
@@ -30,24 +31,23 @@ pygame.display.set_caption('Игра про кликер')
 score = 0
 font = pygame.font.Font(None, 42)
 
-settings_open = False
-achievements_open = False
-shop_open = False
+def open_settings():
+    settings_window = tk.Tk()
+    settings_window.title("Настройки")
+    settings_window.geometry("300x200")
+    settings_window.mainloop()
 
-def opensett():
-    global settings_open
-    settings_open = True
-    print("Настройки открыты")
+def open_achievements():
+    achievements_window = tk.Tk()
+    achievements_window.title("Достижения")
+    achievements_window.geometry("300x200")
+    achievements_window.mainloop()
 
-def openachiev():
-    global achievements_open
-    achievements_open = True
-    print("Достижения открыты")
-
-def openshop():
-    global shop_open
-    shop_open = True
-    print("Магазин открыт")
+def open_shop():
+    shop_window = tk.Tk()
+    shop_window.title("Магазин")
+    shop_window.geometry("300x200")
+    shop_window.mainloop()
     
 def score_click():
     global score
@@ -55,7 +55,7 @@ def score_click():
     print(score)
 
 button2 = Button(
-    settings,
+    screen,
     10, 10, 120, 40,
     text='Настройки',
     fontSize=25,
@@ -64,11 +64,11 @@ button2 = Button(
     hoverColour=(66, 66, 66),
     pressedColour=(255, 15, 31),
     radius=5,
-    onClick=opensett
+    onClick=open_settings  # исправлено
 )
 
 button3 = Button(
-    achievements,
+    screen,
     10, 60, 120, 40,
     text='Достижения',
     fontSize=22,
@@ -77,11 +77,11 @@ button3 = Button(
     hoverColour=(66, 66, 66),
     pressedColour=(255, 15, 31),
     radius=5,
-    onClick=openachiev
+    onClick=open_achievements  # исправлено
 )
 
 button4 = Button(
-    shop,
+    screen,
     10, 110, 120, 40,
     text='Магазин',
     fontSize=25,
@@ -90,7 +90,7 @@ button4 = Button(
     hoverColour=(66, 66, 66),
     pressedColour=(255, 15, 31),
     radius=5,
-    onClick=openshop
+    onClick=open_shop  # исправлено
 )
 
 button = Button(
@@ -123,24 +123,6 @@ while not done:
     
     textsurface = font.render(f'Счет: {score}', True, (0, 0, 0))
     screen.blit(textsurface, (200, 125))
-    
-    if settings_open:
-        pygame.draw.rect(settings, (255, 255, 255), (100, 100, 300, 300))
-        pygame.draw.rect(settings, (0, 0, 0), (100, 100, 300, 300), 3)
-        set_text = font.render('Настройки', True, (0, 0, 0))
-        settings.blit(set_text, (200, 220))
-    
-    if achievements_open:
-        pygame.draw.rect(achievements, (255, 255, 255), (100, 100, 300, 300))
-        pygame.draw.rect(achievements, (0, 0, 0), (100, 100, 300, 300), 3)
-        ach_text = font.render('Достижения', True, (0, 0, 0))
-        achievements.blit(ach_text, (180, 220))
-    
-    if shop_open:
-        pygame.draw.rect(shop, (255, 255, 255), (100, 100, 300, 300))
-        pygame.draw.rect(shop, (0, 0, 0), (100, 100, 300, 300), 3)
-        shop_text = font.render('Магазин', True, (0, 0, 0))
-        shop.blit(shop_text, (200, 220))
     
     pygame.display.flip()
 
