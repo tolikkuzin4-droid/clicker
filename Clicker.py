@@ -64,7 +64,7 @@ button2 = Button(
     hoverColour=(66, 66, 66),
     pressedColour=(255, 15, 31),
     radius=5,
-    onClick=open_settings  # исправлено
+    onClick=open_settings
 )
 
 button3 = Button(
@@ -77,7 +77,7 @@ button3 = Button(
     hoverColour=(66, 66, 66),
     pressedColour=(255, 15, 31),
     radius=5,
-    onClick=open_achievements  # исправлено
+    onClick=open_achievements
 )
 
 button4 = Button(
@@ -90,7 +90,7 @@ button4 = Button(
     hoverColour=(66, 66, 66),
     pressedColour=(255, 15, 31),
     radius=5,
-    onClick=open_shop  # исправлено
+    onClick=open_shop
 )
 
 button = Button(
