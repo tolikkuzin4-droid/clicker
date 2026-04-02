@@ -31,11 +31,19 @@ pygame.display.set_caption('Игра про кликер')
 score = 0
 font = pygame.font.Font(None, 42)
 
+def change_volume(val):
+    mixer.music.set_volume(int(val) / 100)
+
 def open_settings():
-    settings_window = tk.Tk()
-    settings_window.title("Настройки")
-    settings_window.geometry("300x200")
-    settings_window.mainloop()
+    volumesett_window = tk.Tk()
+    volumesett_window.title("Настройка громкости")
+    volumesett_window.geometry("300x200")
+    
+    scale = tk.Scale(volumesett_window, from_=0, to=100, orient=tk.HORIZONTAL, command=change_volume)
+    scale.pack()
+    
+    tk.Label(volumesett_window, text=f"{scale.get()}%").pack()
+    volumesett_window.mainloop()
 
 def open_achievements():
     achievements_window = tk.Tk()
