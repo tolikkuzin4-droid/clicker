@@ -129,7 +129,7 @@ def open_shop():
     
     tk.Label(shop_window, text="МАГАЗИН", font=("Arial", 16, "bold")).pack(pady=10)
     
-    # Покупка 1: Улучшение клика
+    #Покупка 1: Улучшение клика
     def buy_multiplier():
         global score, multiplier
         cost = 50
@@ -150,7 +150,7 @@ def open_shop():
     tk.Label(frame1, text=f"Цена: 50", fg="green", font=("Arial", 12)).pack(side=tk.LEFT, padx=5)
     tk.Button(frame1, text="Купить", command=buy_multiplier).pack(side=tk.LEFT, padx=5)
     
-    # Покупка 2: Автокликер
+    #Покупка 2: Автокликер
     def buy_auto_clicker():
         global score, auto_clicker
         cost = 200  #Стоимость автокликера
@@ -172,7 +172,7 @@ def open_shop():
     tk.Label(frame2, text=f"Цена: 200", fg="green", font=("Arial", 12)).pack(side=tk.LEFT, padx=5)
     tk.Button(frame2, text="Купить", command=buy_auto_clicker).pack(side=tk.LEFT, padx=5)
     
-    # Информация о текущих улучшениях
+    #Информация о текущих улучшениях
     info_frame = tk.Frame(shop_window)
     info_frame.pack(pady=20)
     tk.Label(info_frame, text="Ваши улучшения:", font=("Arial", 12, "bold")).pack()
@@ -206,7 +206,7 @@ def auto_clicker_loop():
         else:
             time.sleep(1)  #Если не куплен, просто ждем и проверяем снова
 
-# Запускаем поток для автокликера
+#Запускаем поток для автокликера
 auto_clicker_thread = threading.Thread(target=auto_clicker_loop, daemon=True)
 auto_clicker_thread.start()
     
