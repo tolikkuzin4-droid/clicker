@@ -35,6 +35,10 @@ font = pygame.font.Font(None, 42)
 SAVE_FILE = "save_data.json"
 LOG_FILE = "game_log.txt"
 
+ach1 = False
+ach2 = False
+ach3 = False
+
 def write_log(message):
     with open(LOG_FILE, "a", encoding="utf-8") as f:
         time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -52,14 +56,33 @@ def open_settings():
     scale = tk.Scale(volumesett_window, from_=0, to=100, orient=tk.HORIZONTAL, command=change_volume)
     scale.pack()
     
-    tk.Label(volumesett_window, text=f"{scale.get()}%").pack()
     volumesett_window.mainloop()
 
 def open_achievements():
-    write_log("Открыты достижения")
+    global ach1, ach2, ach3
     achievements_window = tk.Tk()
     achievements_window.title("Достижения")
-    achievements_window.geometry("300x200")
+    achievements_window.geometry("300x250")
+    
+    tk.Label(achievements_window, text="ДОСТИЖЕНИЯ", font=("Arial", 16)).pack(pady=10)
+    
+    if ach1:
+        tk.Label(achievements_window, text="✅ 100 кликов").pack()
+    else:
+        tk.Label(achievements_window, text="❌ 100 кликов").pack()
+    
+    if ach2:
+        tk.Label(achievements_window, text="✅ 1000 кликов").pack()
+    else:
+        tk.Label(achievements_window, text="❌ 1000 кликов").pack()
+    
+    if ach3:
+        tk.Label(achievements_window, text="✅ 10000 кликов").pack()
+    else:
+        tk.Label(achievements_window, text="❌ 10000 кликов").pack()
+    
+    tk.Label(achievements_window, text=f"\nКликов: {score}").pack()
+    
     achievements_window.mainloop()
 
 def open_shop():
@@ -67,27 +90,47 @@ def open_shop():
     shop_window = tk.Tk()
     shop_window.title("Магазин")
     shop_window.geometry("300x200")
+    tk.Label(shop_window, text="Магазин в разработке").pack(pady=50)
     shop_window.mainloop()
     
 def score_click():
-    global score
+    global score, ach1, ach2, ach3
     score += 1
     click_sound.play()
+    
+    if score >= 100 and not ach1:
+        ach1 = True
+        write_log("Достижение: 100 кликов!")
+        print("100 кликов!")
+    
+    if score >= 1000 and not ach2:
+        ach2 = True
+        write_log("Достижение: 1000 кликов!")
+        print("1000 кликов!")
+    
+    if score >= 10000 and not ach3:
+        ach3 = True
+        write_log("Достижение: 10000 кликов!")
+        print("10000 кликов!")
+    
     write_log(f"Клик! Счет стал: {score}")
     print(score)
 
 def save_game_to_file():
-    data = {"score": score}
+    data = {"score": score, "ach1": ach1, "ach2": ach2, "ach3": ach3}
     with open(SAVE_FILE, "w") as f:
         json.dump(data, f)
     write_log(f"Игра сохранена. Счет: {score}")
 
 def load_game():
-    global score
+    global score, ach1, ach2, ach3
     try:
         with open(SAVE_FILE, "r") as f:
             data = json.load(f)
         score = data["score"]
+        ach1 = data.get("ach1", False)
+        ach2 = data.get("ach2", False)
+        ach3 = data.get("ach3", False)
         write_log(f"Загружена игра. Счет: {score}")
         print(f"Игра загружена! Счет: {score}")
     except:
@@ -95,8 +138,11 @@ def load_game():
         print("Сохранение не найдено")
 
 def new_game():
-    global score
+    global score, ach1, ach2, ach3
     score = 0
+    ach1 = False
+    ach2 = False
+    ach3 = False
     if os.path.exists(SAVE_FILE):
         os.remove(SAVE_FILE)
     write_log("Начата новая игра. Счет сброшен")
@@ -110,9 +156,9 @@ button2 = Button(
     text='Настройки',
     fontSize=25,
     margin=20,
-    inactiveColour=(245, 245, 245),
-    hoverColour=(16, 2, 176),
-    pressedColour=(255, 15, 31),
+    inactiveColour=(200, 200, 200),
+    hoverColour=(150, 150, 150),
+    pressedColour=(100, 100, 100),
     radius=5,
     onClick=open_settings
 )
@@ -123,9 +169,9 @@ button3 = Button(
     text='Достижения',
     fontSize=22,
     margin=20,
-    inactiveColour=(245, 245, 245),
-    hoverColour=(16, 2, 176),
-    pressedColour=(255, 15, 31),
+    inactiveColour=(200, 200, 200),
+    hoverColour=(150, 150, 150),
+    pressedColour=(100, 100, 100),
     radius=5,
     onClick=open_achievements
 )
@@ -136,9 +182,9 @@ button4 = Button(
     text='Магазин',
     fontSize=25,
     margin=20,
-    inactiveColour=(245, 245, 245),
-    hoverColour=(16, 2, 176),
-    pressedColour=(255, 15, 31),
+    inactiveColour=(200, 200, 200),
+    hoverColour=(150, 150, 150),
+    pressedColour=(100, 100, 100),
     radius=5,
     onClick=open_shop
 )
@@ -149,9 +195,9 @@ button5 = Button(
     text='Загрузить игру',
     fontSize=18,
     margin=20,
-    inactiveColour=(245, 245, 245),
-    hoverColour=(16, 2, 176),
-    pressedColour=(255, 15, 31),
+    inactiveColour=(200, 200, 200),
+    hoverColour=(150, 150, 150),
+    pressedColour=(100, 100, 100),
     radius=5,
     onClick=load_game
 )
@@ -162,9 +208,9 @@ button6 = Button(
     text='Новая игра',
     fontSize=20,
     margin=20,
-    inactiveColour=(245, 245, 245),
-    hoverColour=(16, 2, 176),
-    pressedColour=(255, 15, 31),
+    inactiveColour=(200, 200, 200),
+    hoverColour=(150, 150, 150),
+    pressedColour=(100, 100, 100),
     radius=5,
     onClick=new_game
 )
@@ -175,9 +221,9 @@ button7 = Button(
     text='Сохранить',
     fontSize=20,
     margin=20,
-    inactiveColour=(245, 245, 245),
-    hoverColour=(16, 2, 176),
-    pressedColour=(255, 15, 31),
+    inactiveColour=(200, 200, 200),
+    hoverColour=(150, 150, 150),
+    pressedColour=(100, 100, 100),
     radius=5,
     onClick=save_game_to_file
 )
@@ -188,9 +234,9 @@ button = Button(
     text='Click',
     fontSize=50,
     margin=20,
-    inactiveColour=(34, 252, 0),
-    hoverColour=(18, 115, 3),
-    pressedColour=(255, 15, 31),
+    inactiveColour=(150, 150, 150),
+    hoverColour=(100, 100, 100),
+    pressedColour=(50, 50, 50),
     radius=360,
     onClick=score_click
 )
@@ -204,7 +250,7 @@ while not done:
 
         pygame_widgets.update(event)
     
-    screen.fill((136, 230, 242))
+    screen.fill((240, 240, 240))
 
     button.draw()
     button2.draw()
