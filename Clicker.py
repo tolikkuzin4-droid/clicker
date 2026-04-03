@@ -156,9 +156,9 @@ button2 = Button(
     text='Настройки',
     fontSize=25,
     margin=20,
-    inactiveColour=(200, 200, 200),
-    hoverColour=(150, 150, 150),
-    pressedColour=(100, 100, 100),
+    inactiveColour=(255, 255, 255),
+    hoverColour=(227, 227, 227),
+    pressedColour=(255, 15, 31),
     radius=5,
     onClick=open_settings
 )
@@ -169,9 +169,9 @@ button3 = Button(
     text='Достижения',
     fontSize=22,
     margin=20,
-    inactiveColour=(200, 200, 200),
-    hoverColour=(150, 150, 150),
-    pressedColour=(100, 100, 100),
+    inactiveColour=(5, 13, 255),
+    hoverColour=(13, 11, 127),
+    pressedColour=(255, 15, 31),
     radius=5,
     onClick=open_achievements
 )
@@ -182,9 +182,9 @@ button4 = Button(
     text='Магазин',
     fontSize=25,
     margin=20,
-    inactiveColour=(200, 200, 200),
-    hoverColour=(150, 150, 150),
-    pressedColour=(100, 100, 100),
+    inactiveColour=(255, 5, 5),
+    hoverColour=(125, 11, 11),
+    pressedColour=(255, 15, 31),
     radius=5,
     onClick=open_shop
 )
@@ -195,9 +195,9 @@ button5 = Button(
     text='Загрузить игру',
     fontSize=18,
     margin=20,
-    inactiveColour=(200, 200, 200),
-    hoverColour=(150, 150, 150),
-    pressedColour=(100, 100, 100),
+    inactiveColour=(255, 255, 255),
+    hoverColour=(227, 227, 227),
+    pressedColour=(255, 15, 31),
     radius=5,
     onClick=load_game
 )
@@ -208,9 +208,9 @@ button6 = Button(
     text='Новая игра',
     fontSize=20,
     margin=20,
-    inactiveColour=(200, 200, 200),
-    hoverColour=(150, 150, 150),
-    pressedColour=(100, 100, 100),
+    inactiveColour=(5, 13, 255),
+    hoverColour=(13, 11, 127),
+    pressedColour=(255, 15, 31),
     radius=5,
     onClick=new_game
 )
@@ -221,9 +221,9 @@ button7 = Button(
     text='Сохранить',
     fontSize=20,
     margin=20,
-    inactiveColour=(200, 200, 200),
-    hoverColour=(150, 150, 150),
-    pressedColour=(100, 100, 100),
+    inactiveColour=(255, 5, 5),
+    hoverColour=(125, 11, 11),
+    pressedColour=(255, 15, 31),
     radius=5,
     onClick=save_game_to_file
 )
@@ -234,9 +234,9 @@ button = Button(
     text='Click',
     fontSize=50,
     margin=20,
-    inactiveColour=(150, 150, 150),
-    hoverColour=(100, 100, 100),
-    pressedColour=(50, 50, 50),
+    inactiveColour=(34, 252, 0),
+    hoverColour=(18, 115, 3),
+    pressedColour=(255, 15, 31),
     radius=360,
     onClick=score_click
 )
@@ -250,7 +250,7 @@ while not done:
 
         pygame_widgets.update(event)
     
-    screen.fill((240, 240, 240))
+    screen.fill((136, 230, 242))
 
     button.draw()
     button2.draw()
