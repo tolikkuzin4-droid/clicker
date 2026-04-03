@@ -7,6 +7,8 @@ import sys
 import os
 import json
 from datetime import datetime
+import threading
+import time
 
 def resource_path(relative_path):
     try:
@@ -24,6 +26,9 @@ mixer.music.play(-1)
 click_sound = mixer.Sound(resource_path("click.mp3"))
 click_sound.set_volume(0.3)
 
+buy_sound = mixer.Sound(resource_path("click.mp3"))  # Звук покупки (такой же)
+buy_sound.set_volume(0.3)  # Такая же громкость
+
 width = 500
 height = 500
 
@@ -31,6 +36,9 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Игра про кликер')
 
 score = 0
+multiplier = 1
+auto_clicker = False
+auto_clicker_running = True
 font = pygame.font.Font(None, 42)
 SAVE_FILE = "save_data.json"
 LOG_FILE = "game_log.txt"
@@ -86,16 +94,92 @@ def open_achievements():
     achievements_window.mainloop()
 
 def open_shop():
-    write_log("Открыт магазин")
+    global multiplier, auto_clicker, score
+    
     shop_window = tk.Tk()
     shop_window.title("Магазин")
-    shop_window.geometry("300x200")
-    tk.Label(shop_window, text="Магазин в разработке").pack(pady=50)
+    shop_window.geometry("350x350")
+    
+    tk.Label(shop_window, text="МАГАЗИН", font=("Arial", 16, "bold")).pack(pady=10)
+    
+    # Покупка 1: Улучшение клика
+    def buy_multiplier():
+        global score, multiplier
+        cost = 50
+        if score >= cost:
+            score -= cost
+            multiplier += 1
+            buy_sound.play()  # ЗВУК ПОКУПКИ
+            write_log(f"Куплено улучшение клика! Множитель: {multiplier}")
+            update_labels()
+            print(f"Множитель +1! Теперь: {multiplier}")
+        else:
+            tk.messagebox.showwarning("Не хватает", f"Нужно {cost} кликов!")
+    
+    frame1 = tk.Frame(shop_window)
+    frame1.pack(pady=10)
+    tk.Label(frame1, text=f"Улучшение клика +1", font=("Arial", 12)).pack(side=tk.LEFT, padx=5)
+    tk.Label(frame1, text=f"Цена: 50", fg="green", font=("Arial", 12)).pack(side=tk.LEFT, padx=5)
+    tk.Button(frame1, text="Купить", command=buy_multiplier).pack(side=tk.LEFT, padx=5)
+    
+    # Покупка 2: Автокликер
+    def buy_auto_clicker():
+        global score, auto_clicker
+        cost = 200
+        if not auto_clicker and score >= cost:
+            score -= cost
+            auto_clicker = True
+            buy_sound.play()  # ЗВУК ПОКУПКИ
+            write_log("Куплен автокликер!")
+            update_labels()
+            print("Автокликер куплен!")
+        elif auto_clicker:
+            tk.messagebox.showinfo("Уже есть", "Автокликер уже куплен!")
+        else:
+            tk.messagebox.showwarning("Не хватает", f"Нужно {cost} кликов!")
+    
+    frame2 = tk.Frame(shop_window)
+    frame2.pack(pady=10)
+    tk.Label(frame2, text="Автокликер (1 клик/сек)", font=("Arial", 12)).pack(side=tk.LEFT, padx=5)
+    tk.Label(frame2, text=f"Цена: 200", fg="green", font=("Arial", 12)).pack(side=tk.LEFT, padx=5)
+    tk.Button(frame2, text="Купить", command=buy_auto_clicker).pack(side=tk.LEFT, padx=5)
+    
+    # Информация о текущих улучшениях
+    info_frame = tk.Frame(shop_window)
+    info_frame.pack(pady=20)
+    tk.Label(info_frame, text="Ваши улучшения:", font=("Arial", 12, "bold")).pack()
+    tk.Label(info_frame, text=f"Множитель клика: x{multiplier}", font=("Arial", 10)).pack()
+    tk.Label(info_frame, text=f"Автокликер: {'Куплен' if auto_clicker else 'Не куплен'}", font=("Arial", 10)).pack()
+    tk.Label(info_frame, text=f"Кликов: {score}", font=("Arial", 10)).pack()
+    
+    def update_labels():
+        for widget in info_frame.winfo_children():
+            widget.destroy()
+        tk.Label(info_frame, text="Ваши улучшения:", font=("Arial", 12, "bold")).pack()
+        tk.Label(info_frame, text=f"Множитель клика: x{multiplier}", font=("Arial", 10)).pack()
+        tk.Label(info_frame, text=f"Автокликер: {'Куплен' if auto_clicker else 'Не куплен'}", font=("Arial", 10)).pack()
+        tk.Label(info_frame, text=f"Кликов: {score}", font=("Arial", 10)).pack()
+    
     shop_window.mainloop()
+
+def auto_clicker_loop():
+    global score
+    while auto_clicker_running:
+        if auto_clicker:
+            time.sleep(1)
+            score += 1
+            write_log(f"Автокликер! Счет стал: {score}")
+            print(f"Автокликер: +1, всего: {score}")
+        else:
+            time.sleep(1)
+
+# Запускаем поток для автокликера
+auto_clicker_thread = threading.Thread(target=auto_clicker_loop, daemon=True)
+auto_clicker_thread.start()
     
 def score_click():
-    global score, ach1, ach2, ach3
-    score += 1
+    global score, ach1, ach2, ach3, multiplier
+    score += multiplier
     click_sound.play()
     
     if score >= 100 and not ach1:
@@ -113,17 +197,17 @@ def score_click():
         write_log("Достижение: 10000 кликов!")
         print("10000 кликов!")
     
-    write_log(f"Клик! Счет стал: {score}")
+    write_log(f"Клик! +{multiplier} Счет стал: {score}")
     print(score)
 
 def save_game_to_file():
-    data = {"score": score, "ach1": ach1, "ach2": ach2, "ach3": ach3}
+    data = {"score": score, "ach1": ach1, "ach2": ach2, "ach3": ach3, "multiplier": multiplier, "auto_clicker": auto_clicker}
     with open(SAVE_FILE, "w") as f:
         json.dump(data, f)
     write_log(f"Игра сохранена. Счет: {score}")
 
 def load_game():
-    global score, ach1, ach2, ach3
+    global score, ach1, ach2, ach3, multiplier, auto_clicker
     try:
         with open(SAVE_FILE, "r") as f:
             data = json.load(f)
@@ -131,18 +215,22 @@ def load_game():
         ach1 = data.get("ach1", False)
         ach2 = data.get("ach2", False)
         ach3 = data.get("ach3", False)
-        write_log(f"Загружена игра. Счет: {score}")
+        multiplier = data.get("multiplier", 1)
+        auto_clicker = data.get("auto_clicker", False)
+        write_log(f"Загружена игра. Счет: {score}, Множитель: {multiplier}, Автокликер: {auto_clicker}")
         print(f"Игра загружена! Счет: {score}")
     except:
         write_log("Ошибка: файл сохранения не найден")
         print("Сохранение не найдено")
 
 def new_game():
-    global score, ach1, ach2, ach3
+    global score, ach1, ach2, ach3, multiplier, auto_clicker
     score = 0
     ach1 = False
     ach2 = False
     ach3 = False
+    multiplier = 1
+    auto_clicker = False
     if os.path.exists(SAVE_FILE):
         os.remove(SAVE_FILE)
     write_log("Начата новая игра. Счет сброшен")
@@ -245,6 +333,7 @@ done = False
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            auto_clicker_running = False
             write_log("Игра закрыта")
             done = True
 
@@ -261,7 +350,13 @@ while not done:
     button7.draw()
     
     textsurface = font.render(f'Счет: {score}', True, (0, 0, 0))
-    screen.blit(textsurface, (200, 125))
+    screen.blit(textsurface, (200, 10))
+    
+    multisurface = font.render(f'Множитель: x{multiplier}', True, (0, 0, 0))
+    screen.blit(multisurface, (145, 60))
+    
+    autosurface = font.render(f'Автокликер: {"Да" if auto_clicker else "Нет"}', True, (0, 0, 0))
+    screen.blit(autosurface, (138, 110))
     
     pygame.display.flip()
 
