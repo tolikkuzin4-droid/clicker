@@ -28,3 +28,4 @@
 
 # Use case диаграмма
 ![i](https://github.com/tolikkuzin4-droid/clicker/blob/main/Use%20case%20%D0%B4%D0%B8%D0%B0%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0.png?raw=true)
+<img width="886" height="942" alt="image" src="https://github.com/user-attachments/assets/0ec288fd-02f3-4b88-9e2e-a5b771b11b0c" />
