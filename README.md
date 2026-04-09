@@ -19,7 +19,7 @@
 - Система достижений.  
 - Сохранение и загрузка прогресса.  
 - Визуальные и звуковые эффекты (анимация клика, звуки покупок).
-![i](https://github.com/user-attachments/assets/76037b64-14f4-4c5e-a838-92a1c4153ad6)
+![i](https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ5ZsmbQYlLK_6Zu4--9v40nfXpEpdRm3-VMG5LZEKOu-sZnBSb)
 
 
 # Блок-схема
