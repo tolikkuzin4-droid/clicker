@@ -24,7 +24,7 @@
 ![i](https://github.com/user-attachments/assets/76037b64-14f4-4c5e-a838-92a1c4153ad6)
 
 # Блок-схема
-![i](https://github.com/tolikkuzin4-droid/clicker/blob/main/Блок%20схема%20игры%20(1).png?raw=true)
+<img width="1006" height="1382" alt="Блок схема игры" src="https://github.com/user-attachments/assets/ed20decc-b4f8-49fe-9add-b1ea05b178b9" />
 
 # Use case диаграмма
 <img width="886" height="942" alt="image" src="https://github.com/user-attachments/assets/0ec288fd-02f3-4b88-9e2e-a5b771b11b0c" />
